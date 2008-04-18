@@ -49,7 +49,7 @@ class tx_yafi_pi1 extends tslib_pibase {
 	 *
 	 * @param	string		$content: The PlugIn content
 	 * @param	array		$conf: The PlugIn configuration
-	 * @return	The content that is displayed on the website
+	 * @return	The		content that is displayed on the website
 	 */
 	function main($content, $conf) {
 		$this->conf = $conf;
@@ -67,6 +67,11 @@ class tx_yafi_pi1 extends tslib_pibase {
 		return $this->pi_wrapInBaseClass($content);
 	}
 
+	/**
+	 * Imports feeds
+	 *
+	 * @return	string	Success/error HTML comment
+	 */
 	protected function importFeeds() {
 		$apiObj = t3lib_div::makeInstance('tx_yafi_api');
 		/* @var $apiObj tx_yafi_api */

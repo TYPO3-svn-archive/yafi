@@ -27,8 +27,8 @@
  * [CLASS/FUNCTION INDEX of SCRIPT]
  *
  * Hint: use extdeveval to insert/update function index above.
+ *
  */
-
 class tx_yafi_feed_info {
 
 	/** Feed URL */
@@ -40,12 +40,18 @@ class tx_yafi_feed_info {
 	 * of {@link t3lib_div::makeInstanceClassName} for this class and a call to constructor with
 	 * the same set of parameters as in this class.
 	 *
-	 * @param	SimplePie_Item	$item
+	 * @param	SimplePie_Item		$item
+	 * @return	void
 	 */
 	function __construct($feedUrl) {
 		$this->feedUrl = $feedUrl;
 	}
 
+	/**
+	 * Retrieves feed URL
+	 *
+	 * @return	string	Feed URL
+	 */
 	function getFeedURL() {
 		return $this->feedUrl;
 	}

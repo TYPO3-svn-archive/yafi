@@ -65,8 +65,8 @@ class tx_yafi_api {
 	/**
 	 * Adds registered importers to "importer type" control
 	 *
-	 * @param	array	$$params	Parameters to the function
-	 * @param	object	$pObj	Reference to parent object
+	 * @param	array		$$params	Parameters to the function
+	 * @param	object		$pObj	Reference to parent object
 	 * @return	void
 	 */
 	public function importerTypeItemsProcFunc(array &$params, &$pObj)	{
@@ -104,8 +104,8 @@ class tx_yafi_api {
 	/**
 	 * Imports feeds that match to configuration.
 	 *
-	 * @param	array	$conf	Configuration (see tx_yafi_pi1 TS)
-	 * @return	boolean	true if successful
+	 * @param	array		$conf	Configuration (see tx_yafi_pi1 TS)
+	 * @return	boolean		true if successful
 	 */
 	public function importFeeds(array $conf) {
 		// Check configuration and setup extra conditions
@@ -231,7 +231,8 @@ class tx_yafi_api {
 	/**
 	 * Removes expired items. This function is not implemented yet.
 	 *
-	 * @param	array	$conf	Configuration array
+	 * @param	array		$conf	Configuration array
+	 * @return	void
 	 */
 	function removeExpiredPosts(array $conf) {
 		t3lib_div::devLog('tx_yafl_api::removeExpiredPosts() is not implemented yet', 'yafi', 2);
@@ -240,7 +241,7 @@ class tx_yafi_api {
 	/**
 	 * Retrieves import statistics for the last import operation. Result is an array. Keys are STATS_* constants.
 	 *
-	 * @return	array	Import statistics
+	 * @return	array		Import statistics
 	 */
 	function getImportStatistics() {
 		return $this->importStats;

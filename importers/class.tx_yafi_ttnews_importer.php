@@ -49,7 +49,7 @@ class tx_yafi_ttnews_importer implements tx_yafi_importer {
 	/**
 	 * Retrieves icon of the importer. This method can return empty string if there is no icon.
 	 *
-	 * @return string	Icon path, relative to SITE_path
+	 * @return	string		Icon path, relative to SITE_path
 	 * @see tx_yafi_importer::getIcon()
 	 */
 	function getIcon() {
@@ -59,7 +59,7 @@ class tx_yafi_ttnews_importer implements tx_yafi_importer {
 	/**
 	 * Retrieves importer's unique key. It is recommended to use importer's class name as a key.
 	 *
-	 * @return string	Importer's unique key
+	 * @return	string		Importer's unique key
 	 * @see tx_yafi_importer::getKey()
 	 */
 	function getKey() {
@@ -69,7 +69,7 @@ class tx_yafi_ttnews_importer implements tx_yafi_importer {
 	/**
 	 * Retrieves importer's title. This will be passed to {@link language::sL} to get readable string
 	 *
-	 * @return string	Title of the importer
+	 * @return	string		Title of the importer
 	 * @see tx_yafi_importer::getTitle()
 	 */
 	function getTitle() {
@@ -79,7 +79,7 @@ class tx_yafi_ttnews_importer implements tx_yafi_importer {
 	/**
 	 * Obtains flexform configuration DS as inline XML or file reference
 	 *
-	 * @return	string	DS or reference to DS
+	 * @return	string		DS or reference to DS
 	 */
 	function getFlexFormDS() {
 		return 'FILE:EXT:yafi/importers/flexform_tx_yafi_ttnews_importer.xml';
@@ -88,8 +88,8 @@ class tx_yafi_ttnews_importer implements tx_yafi_importer {
 	/**
 	 * Indicates that import starts for the feed.
 	 *
-	 * @param	tx_yafi_feed_info	$feedInfo	Feed information
-	 * @param	string	$xmlConf	XML configuration
+	 * @param	tx_yafi_feed_info		$feedInfo	Feed information
+	 * @param	string		$xmlConf	XML configuration
 	 * @return	void
 	 */
 	function importStart(tx_yafi_feed_info $feedInfo, $xmlConf) {
@@ -113,7 +113,7 @@ class tx_yafi_ttnews_importer implements tx_yafi_importer {
 	/**
 	 * Imports a single item.
 	 *
-	 * @param	tx_yafi_feed_item	$item	Item to import
+	 * @param	tx_yafi_feed_item		$item	Item to import
 	 * @return	void
 	 */
 	function import(tx_yafi_feed_item $item) {
@@ -172,6 +172,8 @@ class tx_yafi_ttnews_importer implements tx_yafi_importer {
 
 	/**
 	 * Archives all items whose date is before configured.
+	 *
+	 * @return	void
 	 */
 	function archiveItems() {
 		if ($this->conf['archivePeriod']) {
@@ -186,8 +188,9 @@ class tx_yafi_ttnews_importer implements tx_yafi_importer {
 	/**
 	 * Removes all items whose date is before $expirationTime.
 	 *
-	 * @param	int	$expirationTime	Expiration time
-	 * @param	string	$xmlConf	XML configuration
+	 * @param	int		$expirationTime	Expiration time
+	 * @param	string		$xmlConf	XML configuration
+	 * @return	void
 	 */
 	function removeExpiredItems($expirationTime, $xmlConf) {
 		$conf = t3lib_div::xml2array($xmlConf);
