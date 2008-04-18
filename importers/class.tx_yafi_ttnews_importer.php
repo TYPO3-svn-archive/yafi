@@ -22,6 +22,8 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
+ * $Id$
+ *
  * [CLASS/FUNCTION INDEX of SCRIPT]
  *
  * Hint: use extdeveval to insert/update function index above.

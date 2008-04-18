@@ -1,5 +1,7 @@
 <?php
 
+/* $Id$ */
+
 if (!defined('TYPO3_cliMode')) {
 	die('This script cannot be executed directly. Use "typo3/cli_dispatch.phpsh yafi help" for details.');
 }
