@@ -1,0 +1,6 @@
+plugin.tx_yafi_pi1 {
+	# cat=yafi; type=int+; label=Storage PID:The PID of the page where feed definition records are stored
+	storagePid =
+	# cat=yafi; type=string; label=Import only these feeds:Comma-separate list of feed UId values
+	limitToFeeds =
+}

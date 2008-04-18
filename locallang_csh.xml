@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<!-- $Id: locallang_csh.xml 200 2007-09-29 20:49:42Z dima $ -->
+<T3locallang>
+	<meta type="array">
+		<description>Additional CSH labels</description>
+		<type>CSH</type>
+		<csh_table>tt_news</csh_table>
+		<fileId>EXT:comments/locallang_csh.xml</fileId>
+		<labelContext type="array">
+		</labelContext>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="hidden.description">Check this item to disable this feed</label>
+			<label index="hidden.details">Disabled feeds are not imported</label>
+			<label index="hidden.seeAlso"></label>
+			<label index="url.description">This is the URL of the ATOM/RSS feed</label>
+			<label index="url.details">Enter URL exacly as it is specified on feed's web site</label>
+			<label index="url.seeAlso"></label>
+			<label index="import_interval.description">Import interval defines how often feed is imported</label>
+			<label index="import_interval.details">Format is similar to PHP strtotime() function. For example, "+1 hour" or "+1 day". Incorectly configured value may prevent feed from being imported. Note that cron job must run with sufficient intervals. If this field is set to "+1 hour" but cron job runs once a day, feeds will be imported only once a day. But if cron job runs every 10 minutes, feed will be imported every one hour.</label>
+			<label index="import_interval.seeAlso">http://php.net/strtotime</label>
+			<label index="expires.description">Article expiration interval defines when articles are expired and removed</label>
+			<label index="expires.details">If this field is set to empty value, no removal will happen. Format is similar to PHP strtotime() function. For example, "+1 hour" or "+1 day". Incorectly configured value may prevent items from being removed. Note that cron job must run with sufficient intervals. If this field is set to "+1 hour" but cron job runs once a day, feeds will be checked for expired articles only once a day. But if cron job runs every 10 minutes, feed will be checked for expired articles every one hour.</label>
+			<label index="expires.seeAlso"></label>
+			<label index="last_import.description">This field shows when feed was last imported.</label>
+			<label index="last_import.details"></label>
+			<label index="last_import.seeAlso"></label>
+			<label index="last_import_localtime.description">This field shows date and time of the most recent imported article for this feed.</label>
+			<label index="last_import_localtime.details"></label>
+			<label index="last_import_localtime.seeAlso"></label>
+			<label index="importer_config.description">Here importers are configured.</label>
+			<label index="importer_config.details">Many importers are supported per single feed. Additional importers can be provided by extensions. Each importer has its own configuration, which should be filled in.</label>
+			<label index="importer_config.seeAlso"></label>
+			<label index="importer_type.description">This field shows currently selected importer.</label>
+			<label index="importer_type.details">Changing the importer will also change configuration field below.</label>
+			<label index="importer_type.seeAlso"></label>
+			<label index="importer_conf.description">This field shows configuration for the importer selected above</label>
+			<label index="importer_conf.details">Importer configuration is specific to each importer.</label>
+			<label index="importer_conf.seeAlso"></label>
+		</languageKey>
+	</data>
+</T3locallang>

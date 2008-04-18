@@ -1,0 +1,6 @@
+plugin.tx_yafi_pi1 = USER_INT
+plugin.tx_yafi_pi1 {
+	includeLibs = EXT:yafi/pi1/class.tx_yafi_pi1.php
+	storagePid = {$plugin.tx_yafi_pi1.storagePid}
+	limitToFeeds = {$plugin.tx_yafi_pi1.limitToFeeds}
+}
