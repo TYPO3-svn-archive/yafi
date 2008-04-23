@@ -84,6 +84,7 @@ $TCA['tx_yafi_feed'] = array (
 				'size' => '15',
 				'eval' => 'datetime',
 				'readOnly' => true,
+				'default' => 0,
 			)
 		),
 		'last_import_localtime' => array (
@@ -94,7 +95,8 @@ $TCA['tx_yafi_feed'] = array (
 				'size' => '15',
 				'eval' => 'datetime',
 				'readOnly' => true,
-			)
+				'default' => 0,
+			),
 		),
 		'importer_config' => array (
 			'exclude' => 1,

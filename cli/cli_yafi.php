@@ -26,9 +26,26 @@ typo3/cli_dispatch.php yafi import -p pid [-l limit]
 	-p pid      Mandatory. Defines page uid where feed records are located
 	-l limit    Limits import to given feeds. Parameters is a comma-separated list of
 	-s          Be silent (good for cron jobs)
+	-v          Be verbose
 ';
-	debug_print_backtrace();
 	exit();
+}
+
+function user_yafi_devLog($params) {
+	if ($params['extKey'] == 'yafi') {
+		switch ($params['severity']) {
+			case 3:
+				echo '[ERROR]';
+				break;
+			case 2:
+				echo '[WARN]';
+				break;
+			default:
+				echo '[INFO]';
+				break;
+		}
+		echo chr(9) . $params['msg'] . chr(10);
+	}
 }
 
 /**
@@ -56,6 +73,9 @@ function processCommandLine() {
 				break;
 			case '-s':
 				$GLOBALS['silent'] = true;
+				break;
+			case '-v':
+				$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_div.php']['devLog'][] = 'user_yafi_devLog';
 				break;
 			default:
 				showHelpAndExit();

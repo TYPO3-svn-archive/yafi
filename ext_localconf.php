@@ -7,6 +7,7 @@ if (!defined ('TYPO3_MODE')) {
 }
 t3lib_extMgm::addUserTSConfig('
 	options.saveDocNew.tx_yafi_feed=1
+	mod.web_list.hideTables := addToList(tx_yafi_importer)
 ');
 
 t3lib_extMgm::addPItoST43($_EXTKEY,'pi1/class.tx_yafi_pi1.php','_pi1','list_type',0);
