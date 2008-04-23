@@ -20,6 +20,7 @@ CREATE TABLE tx_yafi_feed (
 	hidden tinyint(4) DEFAULT '0' NOT NULL,
 	starttime int(11) DEFAULT '0' NOT NULL,
 	endtime int(11) DEFAULT '0' NOT NULL,
+	title varchar(255) DEFAULT '' NOT NULL,
 	url varchar(255) DEFAULT '' NOT NULL,
 	import_interval varchar(255) DEFAULT '' NOT NULL,
 	expires varchar(255) DEFAULT '' NOT NULL,

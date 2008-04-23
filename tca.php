@@ -47,6 +47,15 @@ $TCA['tx_yafi_feed'] = array (
 				)
 			)
 		),
+		'title' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:yafi/locallang_db.xml:tx_yafi_feed.title',
+			'config' => array (
+				'type' => 'input',
+				'size' => '30',
+				'eval' => 'trim',
+			)
+		),
 		'url' => array (
 			'exclude' => 1,
 			'label' => 'LLL:EXT:yafi/locallang_db.xml:tx_yafi_feed.url',
@@ -110,22 +119,23 @@ $TCA['tx_yafi_feed'] = array (
 				'minitems'   => '0',
 				'maxitems'   => '10',
 				'appearance' => array(
-								'collapseAll'           => '1',
-								'expandSingle'          => '1',
-								'useSortable'           => '1',
-								'newRecordLinkAddTitle' => '1',
-								'newRecordLinkPosition' => 'top',
-								'useCombination'        => '0',
-							)
+					'collapseAll'           => '1',
+					'expandSingle'          => '1',
+					'useSortable'           => '1',
+					'newRecordLinkAddTitle' => '1',
+					'newRecordLinkPosition' => 'top',
+					'useCombination'        => '0',
+				)
 			)
 		),
 	),
 	'types' => array (
-		'0' => array('showitem' => 'url;;;;1-1-1, hidden;;1, import_interval;;2, importer_config')
+		'0' => array('showitem' => 'url;;3;;1-1-1, hidden;;1, import_interval;;2, importer_config')
 	),
 	'palettes' => array (
 		'1' => array('showitem' => 'starttime, endtime'),
 		'2' => array('showitem' => 'last_import, last_import_localtime'),
+		'3' => array('showitem' => 'title'),
 	)
 );
 

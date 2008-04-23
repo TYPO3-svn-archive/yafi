@@ -1,3 +1,7 @@
+2008-04-23 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Added title field to feed records as palette
+
 2008-04-18 Dmitry Dulepov  <dmitry@typo3.org>
 
 	* First implementation ready

@@ -8,7 +8,8 @@
 		<languageKey index="default" type="array">
 			<label index="tx_yafi_feed">Feed Import</label>
 			<label index="tx_yafi_feed.disable">Disable</label>
-			<label index="tx_yafi_feed.url">ATOM/RSS Feed URL:</label>
+			<label index="tx_yafi_feed.title">Feed title:</label>
+			<label index="tx_yafi_feed.url">Feed URL:</label>
 			<label index="tx_yafi_feed.import_interval">Import interval:</label>
 			<label index="tx_yafi_feed.expires">Article expiration interval:</label>
 			<label index="tx_yafi_feed.last_import">Last imported on:</label>

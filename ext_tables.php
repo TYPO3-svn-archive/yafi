@@ -9,7 +9,8 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_yafi_feed'] = array (
 	'ctrl' => array (
 		'title'     => 'LLL:EXT:yafi/locallang_db.xml:tx_yafi_feed',
-		'label'     => 'url',
+		'label'     => 'title',
+		'label_alt'	=> 'title,url',
 		'tstamp'    => 'tstamp',
 		'crdate'    => 'crdate',
 		'cruser_id' => 'cruser_id',

@@ -17,6 +17,9 @@
 			<label index="url.description">This is the URL of the ATOM/RSS feed</label>
 			<label index="url.details">Enter URL exacly as it is specified on feed's web site</label>
 			<label index="url.seeAlso"></label>
+			<label index="title.description">This is the optional title of the ATOM/RSS feed</label>
+			<label index="title.details">If title is entered, it will be displayed instead of URL in the Web&gt;List module</label>
+			<label index="title.seeAlso"></label>
 			<label index="import_interval.description">Import interval defines how often feed is imported</label>
 			<label index="import_interval.details">Format is similar to PHP strtotime() function. For example, "+1 hour" or "+1 day". Incorectly configured value may prevent feed from being imported. Note that cron job must run with sufficient intervals. If this field is set to "+1 hour" but cron job runs once a day, feeds will be imported only once a day. But if cron job runs every 10 minutes, feed will be imported every one hour.</label>
 			<label index="import_interval.seeAlso">http://php.net/strtotime</label>
