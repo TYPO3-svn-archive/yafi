@@ -119,12 +119,12 @@ $TCA['tx_yafi_feed'] = array (
 				'minitems'   => '0',
 				'maxitems'   => '10',
 				'appearance' => array(
-					'collapseAll'           => '1',
-					'expandSingle'          => '1',
-					'useSortable'           => '1',
-					'newRecordLinkAddTitle' => '1',
+					'collapseAll'           => false,
+					'expandSingle'          => true,
+					'useSortable'           => true,
+					'newRecordLinkAddTitle' => true,
 					'newRecordLinkPosition' => 'top',
-					'useCombination'        => '0',
+					'useCombination'        => false,
 				)
 			)
 		),
