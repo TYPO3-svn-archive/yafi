@@ -33,6 +33,7 @@
 require_once(t3lib_extMgm::extPath('yafi', 'interface.tx_yafi_importer.php'));
 require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_feed_info.php'));
 require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_feed_item.php'));
+require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_simplepie_file.php'));
 require_once(PATH_t3lib . 'class.t3lib_befunc.php');
 
 // Include ATOM/RSS importer (SimplePie)
@@ -186,7 +187,8 @@ class tx_yafi_api {
 					// Firsts make a quich check for item date. We access SimplePie_item directly because using
 					// tx_yafi_feed_item will also parse description/content and it is slower if item does
 					// not have to be imported
-					if (strtotime($item->get_date()) > $feed['last_import_localtime']) {
+					$time = strtotime($item->get_date());
+					if (($time == 0 && $feed['last_import_localtime'] == 0) || $time > $feed['last_import_localtime']) {
 						$feedItem = new $feedItemClassName($item);
 						/* @var $feedItem tx_yafi_feed_item */
 						foreach ($importers as $importerData) {
