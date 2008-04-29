@@ -1,0 +1,20 @@
+--- simplepie.inc.original	2008-04-29 13:26:43.000000000 +0300
++++ simplepie.inc	2008-04-29 13:29:47.000000000 +0300
+@@ -7618,6 +7618,17 @@
+ 				curl_setopt($fp, CURLOPT_REFERER, $url);
+ 				curl_setopt($fp, CURLOPT_USERAGENT, $useragent);
+ 				curl_setopt($fp, CURLOPT_HTTPHEADER, $headers2);
++				// <TYPO3>
++				if ($GLOBALS['TYPO3_CONF_VARS']['SYS']['curlProxyServer'])	{
++					curl_setopt($fp, CURLOPT_PROXY, $GLOBALS['TYPO3_CONF_VARS']['SYS']['curlProxyServer']);
++					if ($GLOBALS['TYPO3_CONF_VARS']['SYS']['curlProxyTunnel'])	{
++						curl_setopt($fp, CURLOPT_HTTPPROXYTUNNEL, $GLOBALS['TYPO3_CONF_VARS']['SYS']['curlProxyTunnel']);
++					}
++					if ($GLOBALS['TYPO3_CONF_VARS']['SYS']['curlProxyUserPass'])	{
++						curl_setopt($fp, CURLOPT_PROXYUSERPWD, $GLOBALS['TYPO3_CONF_VARS']['SYS']['curlProxyUserPass']);
++					}
++				}
++				// </TYPO3>
+ 				if (!ini_get('open_basedir') && !ini_get('safe_mode') && version_compare(SimplePie_Misc::get_curl_version(), '7.15.2', '>='))
+ 				{
+ 					curl_setopt($fp, CURLOPT_FOLLOWLOCATION, 1);
