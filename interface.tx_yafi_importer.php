@@ -70,10 +70,11 @@ interface tx_yafi_importer {
 	/**
 	 * Imports a single item.
 	 *
+	 * @param	array	$feedRec	Feed record
 	 * @param	tx_yafi_feed_item	$item	Item to import
 	 * @return	void
 	 */
-	function import(tx_yafi_feed_item $item);
+	function import(array $feedRec, tx_yafi_feed_item $item);
 
 	/**
 	 * Indicates that import for a feed ended.
