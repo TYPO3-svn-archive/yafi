@@ -3,4 +3,6 @@ plugin.tx_yafi_pi1 {
 	storagePid =
 	# cat=yafi; type=string; label=Import only these feeds:Comma-separate list of feed UId values
 	limitToFeeds =
+	# cat=yafi; type=int; label=Feed number limit:Import only these many of feeds at a time (0 = no limit)
+	numberLimit = 0
 }

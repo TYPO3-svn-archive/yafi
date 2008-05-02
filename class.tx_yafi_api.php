@@ -33,7 +33,6 @@
 require_once(t3lib_extMgm::extPath('yafi', 'interface.tx_yafi_importer.php'));
 require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_feed_info.php'));
 require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_feed_item.php'));
-require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_simplepie_file.php'));
 require_once(PATH_t3lib . 'class.t3lib_befunc.php');
 
 // Include ATOM/RSS importer (SimplePie)
@@ -137,12 +136,24 @@ class tx_yafi_api {
 						(is_array($conf['limitToFeeds']) ? ' AND uid IN (' . implode(',', $conf['limitToFeeds']) . ')' : '') .
 						t3lib_BEfunc::BEenableFields('tx_yafi_feed') . t3lib_BEfunc::deleteClause('tx_yafi_feed')
 					);
-		while (false !== ($feed = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
+		$feedNumberLimit = intval($this->conf['numberLimit']);
+		if ($feedNumberLimit <= 0) {
+			$feedNumberLimit = PHP_INT_MAX;
+		}
+		while ($this->importStats[self::STATS_IMPORTED_FEEDS] < $feedNumberLimit && false !== ($feed = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
 			// Check if import interval allows us to import now
 			if ($feed['import_interval'] && strtotime($feed['import_interval'], $feed['last_import']) > time()) {
 				// To early to import this feed
 				$this->importStats[self::STATS_IGNORED_FEEDS]++;
+				if (TYPO3_DLOG) {
+					t3lib_div::devLog(sprintf('Feed "%s" (%s) is ignored because its time did not come yet',
+							$feed['title'], $feed['url']), 'yafi');
+				}
 				continue;
+			}
+			if (TYPO3_DLOG) {
+				t3lib_div::devLog(sprintf('Feed "%s" (%s) is scheduled for import',
+						$feed['title'], $feed['url']), 'yafi');
 			}
 			$this->importStats[self::STATS_IMPORTED_FEEDS]++;
 
@@ -159,6 +170,9 @@ class tx_yafi_api {
 				// Set configuration for each importer
 				foreach ($importers as $importerData) {
 					if (isset(self::$registeredImporters[$importerData['importer_type']])) {
+						if (TYPO3_DLOG) {
+							t3lib_div::devLog(sprintf('Initializing importer "%s"', $importerData['importer_type']), 'yafi');
+						}
 						$importer = &self::$registeredImporters[$importerData['importer_type']];
 						/* @var $importer tx_yafi_importer */
 						$info = new $feedInfoClassName($feed['url']);
@@ -195,7 +209,10 @@ class tx_yafi_api {
 							if (isset(self::$registeredImporters[$importerData['importer_type']])) {
 								$importer = &self::$registeredImporters[$importerData['importer_type']];
 								/* @var $importer tx_yafi_importer */
-								$importer->import($feedItem);
+								$importer->import($feed, $feedItem);
+								if (TYPO3_DLOG) {
+									t3lib_div::devLog(sprintf('Imported item "%s" with importer "%s"', $feedItem->getTitle(), $importerData['importer_type']), 'yafi');
+								}
 							}
 						}
 						$itemDate = $feedItem->getDate();
@@ -207,12 +224,22 @@ class tx_yafi_api {
 					}
 					else {
 						$this->importStats[self::STATS_IGNORED_ARTICLES]++;
+						if (TYPO3_DLOG) {
+							t3lib_div::devLog(sprintf('Skipping item "%s" (already imported)', $feedItem->getTitle()), 'yafi');
+						}
 					}
 				}
 				// Update feed info
 				$fields = array('last_import' => time());
 				if ($lastImportedLocalTime > $feed['last_import_localtime']) {
 					$fields['last_import_localtime'] = $lastImportedLocalTime;
+				}
+				// Update feed title if empty
+				if ($feed['title'] == '') {
+					if (TYPO3_DLOG) {
+						t3lib_div::devLog(sprintf('Updating title for feed with URL "%s"', $feed['url']), 'yafi');
+					}
+					$feed['title'] = $simplePie->get_title();
 				}
 				$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tx_yafi_feed', 'uid=' . $feed['uid'], $fields);
 

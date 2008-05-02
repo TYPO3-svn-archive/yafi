@@ -25,6 +25,7 @@ function showHelpAndExit() {
 typo3/cli_dispatch.php yafi import -p pid [-l limit]
 	-p pid      Mandatory. Defines page uid where feed records are located
 	-l limit    Limits import to given feeds. Parameters is a comma-separated list of
+	-n number   Limit import to this number of feeds
 	-s          Be silent (good for cron jobs)
 	-v          Be verbose
 ';
@@ -67,6 +68,9 @@ function processCommandLine() {
 		switch ($GLOBALS['argv'][$i]) {
 			case '-p':
 				$GLOBALS['conf']['storagePid'] = intval($GLOBALS['argv'][++$i]);
+				break;
+			case '-n':
+				$GLOBALS['conf']['numberLimit'] = intval($GLOBALS['argv'][++$i]);
 				break;
 			case '-l':
 				$GLOBALS['conf']['limitToFeeds'] = intval($GLOBALS['argv'][++$i]);
