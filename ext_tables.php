@@ -56,11 +56,25 @@ if (t3lib_extMgm::isLoaded('tt_news')) {
 
 	// New columns
 	$tempColumns = array (
-		'tx_yafi_import_id' => Array (
+		'tx_yafi_import_id' => array (
 			'exclude' => 0,
-			'label' => 'LLL:EXT:yafi/locallang_db.xml:tx_yafi_import_id',
+			'label' => 'LLL:EXT:yafi/locallang_db.xml:tt_news.tx_yafi_import_id',
 			'config' => array (
 				'type'     => 'passthru',
+			)
+		),
+		'tx_yafi_feed' => array(
+			'exclude' => 1,
+			'label' => 'LLL:EXT:yafi/locallang_db.xml:tt_news.tx_yafi_feed',
+			'config' => array (
+				'type'     => 'group',
+				'internal_type' => 'db',
+				'allow' => 'tx_yafi_feed',
+				'prepend_tname' => false,
+				'minitems' => 1,
+				'maxitems' => 1,
+				'size' => 1,
+				'readOnly' => true,
 			)
 		),
 	);

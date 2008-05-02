@@ -5,6 +5,7 @@
 #
 CREATE TABLE tt_news (
 	tx_yafi_import_id varchar(255) DEFAULT '0' NOT NULL,
+	tx_yafi_feed int(11) DEFAULT '0' NOT NULL,
 );
 
 #

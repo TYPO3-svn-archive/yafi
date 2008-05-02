@@ -113,10 +113,11 @@ class tx_yafi_ttnews_importer implements tx_yafi_importer {
 	/**
 	 * Imports a single item.
 	 *
+	 * @param	array	$feedRec	Feed record
 	 * @param	tx_yafi_feed_item		$item	Item to import
 	 * @return	void
 	 */
-	function import(tx_yafi_feed_item $item) {
+	function import(array $feedRec, tx_yafi_feed_item $item) {
 		$time = time();
 		$subTitle = trim(strip_tags($item->getDescription()));
 		if ($this->conf['cropSubheader']) {
@@ -135,6 +136,7 @@ class tx_yafi_ttnews_importer implements tx_yafi_importer {
 			'author' => implode(', ', $item->getAuthors()),
 			'author_email' => count($item->getAuthorEmails()) == 1 ? next($item->getAuthorEmails()) : '',
 			'tx_yafi_import_id' => $item->getId(),
+			'tx_yafi_feed' => $feedRec['uid'],
 		);
 		if ($this->conf['importType'] != 0) {
 			$fields['ext_url'] = $item->getURL();
