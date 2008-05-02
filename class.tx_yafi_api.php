@@ -120,6 +120,9 @@ class tx_yafi_api {
 			}
 			$conf['limitToFeeds'] = array_unique($conf['limitToFeeds']);
 		}
+		if (TYPO3_DLOG) {
+			t3lib_div::devLog('importFeed starts', 'yafi', 0, array('conf' => $conf));
+		}
 		$feedInfoClassName = t3lib_div::makeInstanceClassName('tx_yafi_feed_info');
 		$feedItemClassName = t3lib_div::makeInstanceClassName('tx_yafi_feed_item');
 		$this->importStats = array(
@@ -130,15 +133,18 @@ class tx_yafi_api {
 		);
 
 		// Get feeds
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,url,import_interval,last_import,last_import_localtime',
+		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,title,url,import_interval,last_import,last_import_localtime',
 					'tx_yafi_feed',
 					'pid=' . $conf['storagePid'] . ' AND importer_config>0' .
 						(is_array($conf['limitToFeeds']) ? ' AND uid IN (' . implode(',', $conf['limitToFeeds']) . ')' : '') .
 						t3lib_BEfunc::BEenableFields('tx_yafi_feed') . t3lib_BEfunc::deleteClause('tx_yafi_feed')
 					);
-		$feedNumberLimit = intval($this->conf['numberLimit']);
+		$feedNumberLimit = intval($conf['numberLimit']);
 		if ($feedNumberLimit <= 0) {
 			$feedNumberLimit = PHP_INT_MAX;
+		}
+		elseif (TYPO3_DLOG) {
+			t3lib_div::devLog(sprintf('Will import %d feeds max', $feedNumberLimit), 'yafi');
 		}
 		while ($this->importStats[self::STATS_IMPORTED_FEEDS] < $feedNumberLimit && false !== ($feed = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
 			// Check if import interval allows us to import now
@@ -225,7 +231,7 @@ class tx_yafi_api {
 					else {
 						$this->importStats[self::STATS_IGNORED_ARTICLES]++;
 						if (TYPO3_DLOG) {
-							t3lib_div::devLog(sprintf('Skipping item "%s" (already imported)', $feedItem->getTitle()), 'yafi');
+							t3lib_div::devLog(sprintf('Skipping item "%s" (already imported)', $item->get_title()), 'yafi');
 						}
 					}
 				}
