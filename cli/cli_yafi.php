@@ -46,6 +46,9 @@ function user_yafi_devLog($params) {
 				break;
 		}
 		echo chr(9) . $params['msg'] . chr(10);
+		if ($params['dataVar']) {
+			print_r(array('data' => $params['dataVar']));
+		}
 	}
 }
 
