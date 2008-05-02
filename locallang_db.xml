@@ -30,6 +30,8 @@
 			<label index="tx_yafi_ttnews_importer.importType.I.0">News item</label>
 			<label index="tx_yafi_ttnews_importer.importType.I.2">External URL</label>
 			<label index="tx_yafi_ttnews_importer.cropSubheader">Crop subheader to this many chars:</label>
+			<label index="tt_news.tx_yafi_import_id">Import ID:</label>
+			<label index="tt_news.tx_yafi_feed">Feed:</label>
 		</languageKey>
 	</data>
 </T3locallang>
