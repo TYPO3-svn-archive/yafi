@@ -58,18 +58,31 @@ class tx_yafi_feed_item {
 	 */
 	public function __construct(SimplePie_Item $item) {
 		$this->id = $item->get_id();
-		$this->url = $item->get_permalink();
-		$this->date = strtotime($item->get_date());
-		$this->title = $item->get_title();
-		$this->description = $item->get_description();
-		$this->content = $item->get_content();
-		$authors = $item->get_authors();;
+		$this->url = htmlspecialchars_decode($item->get_permalink());
+		$this->date = $item->get_date('U');
+		$this->title = htmlspecialchars_decode($item->get_title());
+		$this->description = htmlspecialchars_decode($item->get_description());
+		$this->content = htmlspecialchars_decode($item->get_content());
+
+		// Process authors
+		$authors = $item->get_authors();
 		if (is_array($authors)) {
 			foreach ($authors as $author) {
 				/* @var $author SimplePie_Author */
-				$this->authors[] = $author->get_name();
-				$this->author_emails[] = $author->get_email();
+				$this->authors[] = htmlspecialchars_decode($author->get_name());
+				$this->author_emails[] = htmlspecialchars_decode($author->get_email());
 			}
+		}
+
+		// Fix date if necessary
+		if ($this->date == 0 || $this->date > time()) {
+			$this->date = time();
+		}
+
+		// Fix id if necessary
+		if ($this->id == '') {
+			// Do not include date as it may change!
+			$this->id = md5($this->url . '*' . $this->title);
 		}
 	}
 

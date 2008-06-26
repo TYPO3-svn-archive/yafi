@@ -44,6 +44,8 @@ class tx_yafi_ttnews_importer implements tx_yafi_importer {
 
 	const OPTION_SAVEURL = 2;
 
+	const OPTION_REMOVEOLD = 4;
+
 	protected $catCount;
 
 	/**
@@ -63,7 +65,7 @@ class tx_yafi_ttnews_importer implements tx_yafi_importer {
 	 * @see tx_yafi_importer::getKey()
 	 */
 	function getKey() {
-		return get_class($this);
+		return 'tx_yafi_ttnews_importer';
 	}
 
 	/**
@@ -179,11 +181,18 @@ class tx_yafi_ttnews_importer implements tx_yafi_importer {
 	 */
 	function archiveItems() {
 		if ($this->conf['archivePeriod']) {
+			if (0 != ($this->conf['options'] & self::OPTION_REMOVEOLD)) {
+				$fields = array('deleted' => 1);
+			}
+			else {
+				$fields = array('archivedate' => time());
+			}
+			$time = intval(strtotime($this->conf['archivePeriod'], time()));
 			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('tt_news',
-					'datetime<' . $this->conf['archivePeriod'] . ' AND pid=' . $this->conf['storagePid'] .
-						' AND tx_yafi_import_id<>\'\'' .
-						t3lib_BEfunc::BEenableFields('tt_news') . t3lib_BEfunc::deleteClause('tt_news'),
-					array('archivedate' => time()));
+				'datetime<' . $time . ' AND pid=' . $this->conf['storagePid'] .
+					' AND tx_yafi_import_id<>\'\'' .
+					t3lib_BEfunc::BEenableFields('tt_news') . t3lib_BEfunc::deleteClause('tt_news'),
+				$fields);
 		}
 	}
 
@@ -203,6 +212,24 @@ class tx_yafi_ttnews_importer implements tx_yafi_importer {
 						t3lib_BEfunc::BEenableFields('tt_news') . t3lib_BEfunc::deleteClause('tt_news'),
 					array('deleted' => 1));
 		}
+	}
+
+	/**
+	 * Checks if item is already imported
+	 *
+	 * @param	string	$id	Item id
+	 * @return	boolean	true if imported
+	 */
+	function isImported($id) {
+		if ($id != '' && $id != '0') {
+			list($row) = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('COUNT(*) AS t',
+							'tt_news',
+							'tx_yafi_import_id=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($id, 'tt_news') .
+							' AND pid=' . intval($this->conf['storagePid']) .
+							t3lib_BEfunc::BEenableFields('tt_news') . t3lib_BEfunc::deleteClause('tt_news'));
+			return ($row['t'] != 0);
+		}
+		return false;
 	}
 }
 

@@ -90,6 +90,14 @@ interface tx_yafi_importer {
 	 * @param	string	$xmlConf	XML configuration
 	 */
 	function removeExpiredItems($expirationTime, $xmlConf);
+
+	/**
+	 * Checks if item is already imported
+	 *
+	 * @param	string	$id	Item id
+	 * @return	boolean	true if imported
+	 */
+	function isImported($id);
 }
 
 // XCLASS is stupid here but I have to make EM happy...

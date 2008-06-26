@@ -22,10 +22,11 @@
 			<label index="tx_yafi_ttnews_importer">tt_news importer</label>
 			<label index="tx_yafi_ttnews_importer.storagePid">News storage page:</label>
 			<label index="tx_yafi_ttnews_importer.category">Select news categories to assign to imported articles:</label>
-			<label index="tx_yafi_ttnews_importer.archivePeriod">Automatically archive imported items older than (empty=disable):</label>
+			<label index="tx_yafi_ttnews_importer.archivePeriod">Automatically archive/remove imported items older than (empty=disable):</label>
 			<label index="tx_yafi_ttnews_importer.options">Options:</label>
 			<label index="tx_yafi_ttnews_importer.hide">Hide imported items</label>
 			<label index="tx_yafi_ttnews_importer.saveUrl">Save original article URL</label>
+			<label index="tx_yafi_ttnews_importer.removeOld">Remove old articles (do not archive)</label>
 			<label index="tx_yafi_ttnews_importer.importType">Import as:</label>
 			<label index="tx_yafi_ttnews_importer.importType.I.0">News item</label>
 			<label index="tx_yafi_ttnews_importer.importType.I.2">External URL</label>

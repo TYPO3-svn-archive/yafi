@@ -79,7 +79,12 @@
 								<n0>LLL:EXT:yafi/locallang_db.xml:tx_yafi_ttnews_importer.saveUrl</n0>
 								<n1></n1>
 							</n1>
+							<n2>
+								<n0>LLL:EXT:yafi/locallang_db.xml:tx_yafi_ttnews_importer.removeOld</n0>
+								<n1></n1>
+							</n2>
 						</items>
+						<default>4</default>
 					</config>
 				</TCEforms>
 			</options>

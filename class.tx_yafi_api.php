@@ -31,8 +31,6 @@
 
 
 require_once(t3lib_extMgm::extPath('yafi', 'interface.tx_yafi_importer.php'));
-require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_feed_info.php'));
-require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_feed_item.php'));
 require_once(PATH_t3lib . 'class.t3lib_befunc.php');
 
 // Include ATOM/RSS importer (SimplePie)
@@ -70,6 +68,7 @@ class tx_yafi_api {
 	 * @return	void
 	 */
 	public function importerTypeItemsProcFunc(array &$params, &$pObj)	{
+		self::loadImporters();
 		foreach (self::$registeredImporters as $key => $obj) {
 			/* @var $obj tx_yafi_importer */
 			$params['items'][] = array($pObj->sL($obj->getTitle()), $key, $obj->getIcon());
@@ -77,28 +76,37 @@ class tx_yafi_api {
 	}
 
 	/**
-	 * Registers importer with extension. This will create an instance of the importer and keep a reference to it.
+	 * Registers importer with extension.
 	 *
 	 * @param	string	$className	Class name/definition of importer
 	 * @see	t3lib_div::getUserObj
 	 */
 	public static function registerImporter($className) {
-		$class = t3lib_div::getUserObj($className);
-		if ($class instanceof tx_yafi_importer) {
-			/* @var $class tx_yafi_importer */
-			$key = $class->getKey();
+		self::$registeredImporters[$className] = $className;
+		return true;
+	}
 
-			// Register it
-			self::$registeredImporters[$key] = $class;
+	protected static function loadImporters() {
+		$result = array();
+		foreach (self::$registeredImporters as $className) {
+			if (is_string($className)) {
+				$class = t3lib_div::getUserObj($className);
+				if ($class instanceof tx_yafi_importer) {
+					/* @var $class tx_yafi_importer */
+					$key = $class->getKey();
 
-			// Add configuration DS
-			t3lib_div::loadTCA('tx_yafi_importer');
-			$GLOBALS['TCA']['tx_yafi_importer']['columns']['importer_conf']['config']['ds'][$key] = $class->getFlexFormDS();
+					// Register it
+					$result[$key] = $class;
 
-			return true;
+					// Add configuration DS
+					t3lib_div::loadTCA('tx_yafi_importer');
+					$GLOBALS['TCA']['tx_yafi_importer']['columns']['importer_conf']['config']['ds'][$key] = $class->getFlexFormDS();
+				}
+			}
 		}
-		t3lib_div::devLog(sprintf('Attempt to register %s as feed importer failed. Reason: not an instance of tx_yafi_importer', $className), 'yafi', 2);
-		return false;
+		if (count($result) > 0) {
+			self::$registeredImporters = $result;
+		}
 	}
 
 	/**
@@ -113,6 +121,14 @@ class tx_yafi_api {
 			t3lib_div::devLog('tx_yafi_api::importFeeds(): no valid storagePid in configuration', 'yafi', 3);
 			return false;
 		}
+
+		// Here to allow proper XCLASSing
+		global $TYPO3_CONF_VARS;
+		require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_feed_info.php'));
+		require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_feed_item.php'));
+
+		self::loadImporters();
+
 		if (trim($conf['limitToFeeds'])) {
 			$conf['limitToFeeds'] = t3lib_div::trimExplode($conf['limitToFeeds']);
 			foreach ($conf['limitToFeeds'] as $k => $v) {
@@ -207,7 +223,8 @@ class tx_yafi_api {
 					// Firsts make a quich check for item date. We access SimplePie_item directly because using
 					// tx_yafi_feed_item will also parse description/content and it is slower if item does
 					// not have to be imported
-					$time = strtotime($item->get_date());
+
+					$time = $item->get_date('U');
 					if (($time == 0 && $feed['last_import_localtime'] == 0) || $time > $feed['last_import_localtime']) {
 						$feedItem = new $feedItemClassName($item);
 						/* @var $feedItem tx_yafi_feed_item */
@@ -215,18 +232,25 @@ class tx_yafi_api {
 							if (isset(self::$registeredImporters[$importerData['importer_type']])) {
 								$importer = &self::$registeredImporters[$importerData['importer_type']];
 								/* @var $importer tx_yafi_importer */
-								$importer->import($feed, $feedItem);
-								if (TYPO3_DLOG) {
-									t3lib_div::devLog(sprintf('Imported item "%s" with importer "%s"', $feedItem->getTitle(), $importerData['importer_type']), 'yafi');
+								if (!$importer->isImported($feedItem->getId())) {
+									$importer->import($feed, $feedItem);
+									if (TYPO3_DLOG) {
+										t3lib_div::devLog(sprintf('Imported item "%s" with importer "%s"', $feedItem->getTitle(), $importerData['importer_type']), 'yafi');
+									}
+									$this->importStats[self::STATS_IMPORTED_ARTICLES]++;
+								}
+								else {
+									if (TYPO3_DLOG) {
+										t3lib_div::devLog(sprintf('Attempt to import duplicate item. Item is is "%s"', $feedItem->getId()), 'yafi');
+									}
+									$this->importStats[self::STATS_IGNORED_ARTICLES]++;
 								}
 							}
 						}
-						$itemDate = $feedItem->getDate();
-						if ($itemDate > $lastImportedLocalTime) {
-							$lastImportedLocalTime = $itemDate;
+						if ($time > $lastImportedLocalTime) {
+							$lastImportedLocalTime = $time;
 						}
 						unset($feedItem);
-						$this->importStats[self::STATS_IMPORTED_ARTICLES]++;
 					}
 					else {
 						$this->importStats[self::STATS_IGNORED_ARTICLES]++;
