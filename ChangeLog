@@ -1,11 +1,15 @@
-2008-04-23 Dmitry Dulepov  <dmitry@typo3.org>
+2008-06-27	Dmitry Dulepov	<dmitry@typo3.org>
+
+	* Added documentation
+
+2008-04-23	Dmitry Dulepov	<dmitry@typo3.org>
 
 	* Added title field to feed records as palette
 
-2008-04-18 Dmitry Dulepov  <dmitry@typo3.org>
+2008-04-18	Dmitry Dulepov	<dmitry@typo3.org>
 
 	* First implementation ready
 
-2008-04-17 Dmitry Dulepov  <dmitry@typo3.org>
+2008-04-17	Dmitry Dulepov	<dmitry@typo3.org>
 
 	* Initial code generated with kickstarter
