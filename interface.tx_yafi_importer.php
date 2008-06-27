@@ -32,13 +32,14 @@
 interface tx_yafi_importer {
 	/**
 	 * Retrieves importer's unique key. It is recommended to use importer's class name as a key.
+	 * yafi extension uses importer keys to distinguish one importer from another.
 	 *
 	 * @return	string	Importer's unique key
 	 */
 	function getKey();
 
 	/**
-	 * Retrieves importer's title. This will be passed to {@link language::sL} to get readable string
+	 * Retrieves importer's title. This will be passed to {@link language::sL} to get readable string.
 	 *
 	 * @return	string	Title of the importer
 	 */
@@ -52,7 +53,7 @@ interface tx_yafi_importer {
 	function getIcon();
 
 	/**
-	 * Obtains flexform configuration DS as inline XML or file reference
+	 * Obtains flexform configuration DS as inline XML or file reference. This flexform will be shown in the feed importer configuration in Backend.
 	 *
 	 * @return	string	DS or reference to DS
 	 */
@@ -70,7 +71,7 @@ interface tx_yafi_importer {
 	/**
 	 * Imports a single item.
 	 *
-	 * @param	array	$feedRec	Feed record
+	 * @param	array	$feedRec	Feed record (from tx_yafi_feed table)
 	 * @param	tx_yafi_feed_item	$item	Item to import
 	 * @return	void
 	 */
@@ -92,7 +93,7 @@ interface tx_yafi_importer {
 	function removeExpiredItems($expirationTime, $xmlConf);
 
 	/**
-	 * Checks if item is already imported
+	 * Checks if item is already imported.
 	 *
 	 * @param	string	$id	Item id
 	 * @return	boolean	true if imported
