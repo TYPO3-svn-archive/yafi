@@ -5,8 +5,7 @@
 	* Disabled table name prepend in tt_news importer DS
 	* Released version 1.0.4
 	* Fixed bug: importer configuration was not shown
-
-
+	* Released version 1.0.5
 
 2008-06-27	Dmitry Dulepov	<dmitry@typo3.org>
 
