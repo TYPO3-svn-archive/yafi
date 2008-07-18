@@ -3,6 +3,10 @@
 	* Fixed wrong cli_dispatch name in the manual
 	* Fixed bug: DS was not set for importer when saving data. As a results storage folder was not recognized and tt_news category was missing
 	* Disabled table name prepend in tt_news importer DS
+	* Released version 1.0.4
+	* Fixed bug: importer configuration was not shown
+
+
 
 2008-06-27	Dmitry Dulepov	<dmitry@typo3.org>
 
