@@ -31,6 +31,7 @@
 						<type>group</type>
 						<internal_type>db</internal_type>
 						<allowed>pages</allowed>
+						<prepend_tname>0</prepend_tname>
 						<minitems>1</minitems>
 						<maxitems>1</maxitems>
 						<size>1</size>
