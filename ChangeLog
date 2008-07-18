@@ -1,6 +1,7 @@
 2008-07-18	Dmitry Dulepov	<dmitry@typo3.org>
 
 	* Fixed wrong cli_dispatch name in the manual
+	* Fixed bug: DS was not set for importer when saving data. As a results storage folder was not recognized and tt_news category was missing
 
 2008-06-27	Dmitry Dulepov	<dmitry@typo3.org>
 

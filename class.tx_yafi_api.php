@@ -38,6 +38,9 @@ if (!class_exists('SimplePie')) {
 	require_once(t3lib_extMgm::extPath('yafi', 'lib/simplepie/simplepie.inc'));
 }
 
+require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_feed_info.php'));
+require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_feed_item.php'));
+
 /**
  * Class/Function which manipulates the item-array for table/field tx_yafi_importer_importer_type.
  *
@@ -82,18 +85,33 @@ class tx_yafi_api {
 	 * @see	t3lib_div::getUserObj
 	 */
 	public static function registerImporter($className) {
-		self::$registeredImporters[$className] = $className;
+		$class = t3lib_div::getUserObj($className);
+		if ($class instanceof tx_yafi_importer) {
+			/* @var $class tx_yafi_importer */
+			$key = $class->getKey();
+
+			if (!isset(self::$registeredImporters[$key])) {
+				// Register it
+				self::$registeredImporters[$key] = $class;
+
+				// Add configuration DS
+				t3lib_div::loadTCA('tx_yafi_importer');
+				$GLOBALS['TCA']['tx_yafi_importer']['columns']['importer_conf']['config']['ds'][$key] = $class->getFlexFormDS();
+			}
+		}
+//		self::$registeredImporters[$className] = $className;
 		return true;
 	}
 
 	protected static function loadImporters() {
+		/*
 		$result = array();
 		foreach (self::$registeredImporters as $className) {
 			if (is_string($className)) {
 				$class = t3lib_div::getUserObj($className);
 				if ($class instanceof tx_yafi_importer) {
-					/* @var $class tx_yafi_importer */
-					$key = $class->getKey();
+		*/			/* @var $class tx_yafi_importer */
+		/*			$key = $class->getKey();
 
 					// Register it
 					$result[$key] = $class;
@@ -107,6 +125,7 @@ class tx_yafi_api {
 		if (count($result) > 0) {
 			self::$registeredImporters = $result;
 		}
+		*/
 	}
 
 	/**
@@ -123,9 +142,9 @@ class tx_yafi_api {
 		}
 
 		// Here to allow proper XCLASSing
-		global $TYPO3_CONF_VARS;
-		require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_feed_info.php'));
-		require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_feed_item.php'));
+//		global $TYPO3_CONF_VARS;
+//		require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_feed_info.php'));
+//		require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_feed_item.php'));
 
 		self::loadImporters();
 
