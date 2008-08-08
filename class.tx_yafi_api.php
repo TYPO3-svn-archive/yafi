@@ -31,7 +31,6 @@
 
 
 require_once(t3lib_extMgm::extPath('yafi', 'interface.tx_yafi_importer.php'));
-require_once(PATH_t3lib . 'class.t3lib_befunc.php');
 
 // Include ATOM/RSS importer (SimplePie)
 if (!class_exists('SimplePie')) {
@@ -133,6 +132,8 @@ class tx_yafi_api {
 	 * @return	boolean		true if successful
 	 */
 	public function importFeeds(array $conf) {
+		// Include here or it will break XCLASSes!
+		require_once(PATH_t3lib . 'class.t3lib_befunc.php');
 		// Check configuration and setup extra conditions
 		if (!t3lib_div::testInt($conf['storagePid'])) {
 			t3lib_div::devLog('tx_yafi_api::importFeeds(): no valid storagePid in configuration', 'yafi', 3);
@@ -147,7 +148,7 @@ class tx_yafi_api {
 		self::loadImporters();
 
 		if (trim($conf['limitToFeeds'])) {
-			$conf['limitToFeeds'] = t3lib_div::trimExplode($conf['limitToFeeds']);
+			$conf['limitToFeeds'] = t3lib_div::trimExplode(',', $conf['limitToFeeds']);
 			foreach ($conf['limitToFeeds'] as $k => $v) {
 				$conf['limitToFeeds'][$k] = intval($v);
 			}
