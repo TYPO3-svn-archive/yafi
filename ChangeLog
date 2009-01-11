@@ -1,6 +1,7 @@
 2009-01-11  Dmitry Dulepov  <dmitry@typo3.org>
 
 	* Changed the way to register importers (DS was not added properly)
+	* Added getFeedId() to the tx_yafi_feed_info
 
 2008-08-08	Dmitry Dulepov	<dmitry@typo3.org>
 

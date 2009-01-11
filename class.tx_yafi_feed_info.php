@@ -31,8 +31,8 @@
  */
 class tx_yafi_feed_info {
 
-	/** Feed URL */
-	protected $feedUrl;
+	/** Feed record */
+	protected $feed;
 
 	/**
 	 * Creates an instance of this class. Note that this is considered to be an implementation detail
@@ -43,8 +43,8 @@ class tx_yafi_feed_info {
 	 * @param	SimplePie_Item		$item
 	 * @return	void
 	 */
-	function __construct($feedUrl) {
-		$this->feedUrl = $feedUrl;
+	function __construct(array $feed) {
+		$this->feed = $feed;
 	}
 
 	/**
@@ -53,7 +53,11 @@ class tx_yafi_feed_info {
 	 * @return	string	Feed URL
 	 */
 	function getFeedURL() {
-		return $this->feedUrl;
+		return $this->feed['url'];
+	}
+
+	function getFeedId() {
+		return $this->feed['uid'];
 	}
 }
 

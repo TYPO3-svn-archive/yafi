@@ -73,7 +73,8 @@ class tx_yafi_api {
 		self::loadImporters();
 		foreach (self::$registeredImporters as $key => $obj) {
 			/* @var $obj tx_yafi_importer */
-			$params['items'][] = array($pObj->sL($obj->getTitle()), $key, $obj->getIcon());
+			$params['items'][] = array($pObj->
+			sL($obj->getTitle()), $key, $obj->getIcon());
 
 			$GLOBALS['TCA']['tx_yafi_importer']['columns']['importer_conf']['config']['ds'][$key] = $obj->getFlexFormDS();
 		}
@@ -141,11 +142,6 @@ class tx_yafi_api {
 			t3lib_div::devLog('tx_yafi_api::importFeeds(): no valid storagePid in configuration', 'yafi', 3);
 			return false;
 		}
-
-		// Here to allow proper XCLASSing
-//		global $TYPO3_CONF_VARS;
-//		require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_feed_info.php'));
-//		require_once(t3lib_extMgm::extPath('yafi', 'class.tx_yafi_feed_item.php'));
 
 		self::loadImporters();
 
@@ -217,7 +213,7 @@ class tx_yafi_api {
 						}
 						$importer = &self::$registeredImporters[$importerData['importer_type']];
 						/* @var $importer tx_yafi_importer */
-						$info = new $feedInfoClassName($feed['url']);
+						$info = new $feedInfoClassName($feed);
 						/* @var $info tx_yafi_feed_info */
 						$importer->importStart($info, $importerData['importer_conf']);
 					}
