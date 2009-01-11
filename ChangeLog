@@ -1,3 +1,7 @@
+2009-01-11  Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Changed the way to register importers (DS was not added properly)
+
 2008-08-08	Dmitry Dulepov	<dmitry@typo3.org>
 
 	* Fixed problem with XCLASSes due to inclusion of t3lib_BEfunc

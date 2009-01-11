@@ -74,6 +74,8 @@ class tx_yafi_api {
 		foreach (self::$registeredImporters as $key => $obj) {
 			/* @var $obj tx_yafi_importer */
 			$params['items'][] = array($pObj->sL($obj->getTitle()), $key, $obj->getIcon());
+
+			$GLOBALS['TCA']['tx_yafi_importer']['columns']['importer_conf']['config']['ds'][$key] = $obj->getFlexFormDS();
 		}
 	}
 
@@ -92,9 +94,9 @@ class tx_yafi_api {
 			// Register it
 			self::$registeredImporters[$key] = $class;
 
-			// Add configuration DS
-			t3lib_div::loadTCA('tx_yafi_importer');
-			$GLOBALS['TCA']['tx_yafi_importer']['columns']['importer_conf']['config']['ds'][$key] = $class->getFlexFormDS();
+			// Add configuration DS -> see importerTypeItemsProcFunc()
+			//t3lib_div::loadTCA('tx_yafi_importer');
+			//$GLOBALS['TCA']['tx_yafi_importer']['columns']['importer_conf']['config']['ds'][$key] = $class->getFlexFormDS();
 		}
 //		self::$registeredImporters[$className] = $className;
 		return true;
